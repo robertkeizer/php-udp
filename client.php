@@ -2,14 +2,15 @@
 
 include './config.php';
 
-if( $argc < 4 ){
-	die( "Usage: {$argv[0]} [host] [port] [message to send.]\n" );
+if( $argc < 5 ){
+	die( "Usage: {$argv[0]} [fromHost] [toHost] [port] [message to send.]\n" );
 }
 
-$host	= $argv[1];
-$port	= $argv[2];
-$msg	= "";
+$fromHost	= $argv[1];
+$toHost		= $argv[2];
+$port		= $argv[3];
 
+$msg	= "";
 for($x=3;$x<$argc;$x++){
 	if($x==$argc-1){
 		$msg .= $argv[$x];
@@ -20,12 +21,13 @@ for($x=3;$x<$argc;$x++){
 
 try{
 
-	$myClient	= new Client( $host, $port );
+	$myClient	= new Client( $fromHost, $toHost, $port );
 	echo $myClient->showStatus();
 	$myClient->startUp();
 	echo $myClient->showStatus();
 
-	echo $myClient->send( $msg );
+	$myClient->send( $msg );
+
 	$myClient->disconnect();
 	echo $myClient->showStatus();
 
